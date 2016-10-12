@@ -1,0 +1,1 @@
+* * * * * root python /opt/feedback-notifier/notifier >> /dev/null 2>&1
