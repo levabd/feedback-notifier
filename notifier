@@ -1,0 +1,22 @@
+#!/usr/bin/python
+#  coding=utf-8
+
+if __name__ == '__main__':
+    import os
+    import sys
+    import logging
+    import sqlite3
+
+    base_path = os.path.dirname(os.path.realpath(__file__))
+    sys.path.append(base_path)
+
+    from feedbacknotifier.src.lib import logger
+
+    logger_path = os.path.join(base_path, "logs")
+    logger.init_logger(logging.NOTSET, logger_path)
+
+    db_path = os.path.join(base_path, "feedback_messages.db")
+    conn = sqlite3.connect(db_path)
+
+    notifier = (base_path)
+    cli.run()
