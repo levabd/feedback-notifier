@@ -106,7 +106,6 @@ def get_android_feedback_messages(key_file_path, limit=10):
             infinite_loop_canary -= 1
             if infinite_loop_canary < 0:
                 break
-
         messages.extend([feedback.Feedback(
             os='android',
             review_id=review["reviewId"],
@@ -114,15 +113,21 @@ def get_android_feedback_messages(key_file_path, limit=10):
             comment=review['comments'][0]['userComment']['text'],
             updated_at=int(review['comments'][0]['userComment']['lastModified']
                            ['seconds']),
-            rating=int(review['comments'][0]['userComment']['starRating']),
-            device=review['comments'][0]['userComment']['device'],
+            rating=int(review['comments'][0]['userComment'][
+                           'starRating']) if 'starRating' in review[
+                           'comments'][0]['userComment'] else None,
+            device=review['comments'][0]['userComment'][
+                           'device'] if 'device' in review['comments'][0][
+                           'userComment'] else None,
             os_version=int(review['comments'][0]['userComment'][
-                'androidOsVersion']),
+                'androidOsVersion']) if 'androidOsVersion' in review[
+                'comments'][0]['userComment'] else None,
             app_version=review['comments'][0]['userComment'][
                 'appVersionName'] if 'appVersionName' in review[
                 'comments'][0]['userComment'] else None,
             device_metadata=review['comments'][0]['userComment'][
-                'deviceMetadata']
+                'deviceMetadata'] if 'deviceMetadata' in review[
+                'comments'][0]['userComment'] else None
         ) for review in reviews_list[0:limit]])
     except IndexError:
         logger.error(sys.exc_info()[0])
